@@ -1,0 +1,35 @@
+﻿@model IEnumerable<EmployeeManagement.Models.Employee>
+
+<h2>Employees</h2>
+
+<p>
+    @Html.ActionLink("Add New Employee", "Create")
+</p>
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Department</th>
+        <th>Salary</th>
+        <th>State</th>
+        <th>City</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.FullName</td>
+            <td>@item.Email</td>
+            <td>@item.Department</td>
+            <td>@item.Salary</td>
+            <td>@item.StateName</td>
+            <td>@item.CityName</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.EmployeeId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.EmployeeId })
+            </td>
+        </tr>
+    }
+</table>

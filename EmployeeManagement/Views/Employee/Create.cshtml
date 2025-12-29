@@ -1,0 +1,62 @@
+﻿@model EmployeeManagement.Models.Employee
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @Html.LabelFor(m => m.FullName)
+        @Html.TextBoxFor(m => m.FullName)
+    </div>
+
+    <div>
+        @Html.LabelFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email)
+    </div>
+
+    <div>
+        @Html.LabelFor(m => m.Department)
+        @Html.TextBoxFor(m => m.Department)
+    </div>
+
+    <div>
+        @Html.LabelFor(m => m.Salary)
+        @Html.TextBoxFor(m => m.Salary)
+    </div>
+
+    <div>
+        @Html.Label("State")
+        @Html.DropDownListFor(m => m.StateId,
+            ViewBag.States as SelectList,
+            "-- Select State --",
+            new { id = "StateId" })
+    </div>
+
+    <div>
+        @Html.Label("City")
+        @Html.DropDownListFor(m => m.CityId,
+            new SelectList(Enumerable.Empty<SelectListItem>()),
+            "-- Select City --",
+            new { id = "CityId" })
+    </div>
+
+    <button type="submit">Save</button>
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $("#StateId").change(function () {
+        var stateId = $(this).val();
+        $("#CityId").empty();
+
+        $.getJSON('/Employee/GetCitiesByState',
+            { stateId: stateId },
+            function (data) {
+                $.each(data, function (i, item) {
+                    $("#CityId").append(
+                        $('<option></option>').val(item.CityId).text(item.CityName)
+                    );
+                });
+            });
+    });
+</script>
